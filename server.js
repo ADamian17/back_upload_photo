@@ -7,9 +7,10 @@ const multer = require('multer');
 require('dotenv').config();
 const PORT = process.env.PORT;
 
+const routes = require('./routes');
+
 
 // ------------ MiddleWare ----------- //
-
 
 // CORS - Cross Origi Resource Sharing
 const corsOptions = {
@@ -26,7 +27,7 @@ app.use(bodyParser.json());
 // Multer 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-  cb(null, 'public')
+  cb( null, 'public' )
 },
 filename: function (req, file, cb) {
   cb(null, Date.now() + '-' +file.originalname )
@@ -48,5 +49,6 @@ app.post('/upload',function(req, res) {
 });
 
 
+app.use("/api/v1/users", routes.user);
 
 app.listen( PORT, () => console.log(`Server connected at http://localhost:${PORT}`));
