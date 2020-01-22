@@ -17,8 +17,7 @@ const index = (req, res) => {
   });
 };
 
-
-
+// create user
 const createUser = (req, res) => {
   if (
     !req.body.firstName 
@@ -57,7 +56,25 @@ const createUser = (req, res) => {
   });
 };
 
+
+// SHow One User
+const profile = (req, res) => {
+  db.User.findById( req.params.id, (err, foundUser) => {
+    if ( err ) return res.status(500).json({
+      status: 500,
+      data: foundUser,
+      error: [{ message: 'Something went wrong. Please try again '}],
+    });
+    return res.status(200).json({
+      status: 200,
+      data: foundUser,
+      requestedAt: new Date().toLocaleString(),
+    }); 
+  });
+};
+
 module.exports = {
   index,
   createUser,
+  profile,
 };
