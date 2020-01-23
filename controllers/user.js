@@ -30,6 +30,7 @@ const createUser = (req, res) => {
     });
   }
   db.User.findOne({ name: req.body.name }, (err, foundUser) => {
+    console.log(foundUser)
     if (err) return res.status(500).json({
         status: 500,
         message: "Something went wrong. Please try again"
@@ -43,7 +44,7 @@ const createUser = (req, res) => {
       const newUser = {
         firstName: req.body.firstName,
       };
-
+      console.log(newUser) 
       db.User.create(newUser, (err) => {
         if(err) console.log(err)
         if (err)

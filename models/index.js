@@ -4,7 +4,7 @@ const dbUrl = process.env.MONGODB_URI ;
 
 
 
-mongoose.connect( 'mongodb://localhost:27017/photo_upload', {
+mongoose.connect( dbUrl, {
     useNewUrlParser: true,
     useFindAndModify: false,
     useCreateIndex: true,
