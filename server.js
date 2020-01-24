@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const multer = require('multer');
 
 require('dotenv').config();
 const PORT = process.env.PORT;
@@ -24,31 +23,8 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// Multer 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-  cb( null, 'public' )
-},
-filename: function (req, file, cb) {
-  cb(null, Date.now() + '-' +file.originalname )
-}
-})
 
-const upload = multer({ storage: storage }).array('file');
-
-app.post('/upload',function(req, res) {
-     
-  upload(req, res, function (err) {
-         if (err instanceof multer.MulterError) {
-             return res.status(500).json(err)
-         } else if (err) {
-             return res.status(500).json(err)
-         }
-    return res.status(200).send(req.file)
-  })
-});
-
-
+// Routes 
 app.use("/api/v1/users", routes.user);
 
 app.listen( PORT, () => console.log(`Server connected at http://localhost:${PORT}`));

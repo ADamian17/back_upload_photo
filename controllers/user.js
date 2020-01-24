@@ -5,7 +5,7 @@ const index = (req, res) => {
   db.User.find({}, (err, allUsers) => {
     if (err)  return res.status(500).json({
       status: 500,
-      error: [{message: 'Something went wrong! Please try again'}],
+      message: 'Something went wrong! Please try again',
     });
     
     res.json({
@@ -19,8 +19,10 @@ const index = (req, res) => {
 
 // create user
 const createUser = (req, res) => {
+
   if (
-    !req.body.firstName 
+    !req.body.firstName ||
+    !req.body.lastName
     // !req.body.profilePhoto
   ) {
     return res.status(400).json({
@@ -30,23 +32,22 @@ const createUser = (req, res) => {
     });
   }
   db.User.findOne({ name: req.body.name }, (err, foundUser) => {
-    console.log(foundUser)
     if (err) return res.status(500).json({
         status: 500,
         message: "Something went wrong. Please try again"
       });
-
+      
     if (foundUser) res.status(400).json({
         status: 400,
-        message: "Something went wrong. Please try again"
+        message: "Something went wrong. Please try again stops here"
       });
 
       const newUser = {
         firstName: req.body.firstName,
+        lastName: req.body.lastName,
       };
-      console.log(newUser) 
       db.User.create(newUser, (err) => {
-        if(err) console.log(err)
+        console.log(newUser)
         if (err)
           return res.status(500).json({
             status: 500,
